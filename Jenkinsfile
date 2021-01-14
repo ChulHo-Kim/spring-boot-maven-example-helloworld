@@ -11,7 +11,7 @@ pipeline {
             steps {
                 echo 'clonning Repository'
 
-                git url: ''
+                git url: 'https://github.com/ChulHo-Kim/spring-boot-maven-example-helloworld.git'
                 branch: 'dev'
                 credentialId: 'ChulHo-Kim'
             }
