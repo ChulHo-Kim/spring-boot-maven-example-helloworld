@@ -22,8 +22,6 @@ pipeline {
 
         stage('Docker Image Push Nexus') {
             steps {
-                echo 'Docker Image Push Nexus'
-
                 sh 'cat /var/jenkins_home/password/docker_registry.txt | docker login ${docker_registry_ip}:${docker_registry_port} -u ${docker_registry_id} --password-stdin'
                 sh 'docker tag ${JOB_NAME}:${BUILD_NUMBER} ${docker_registry_ip}:${docker_registry_port}/${JOB_NAME}:${BUILD_NUMBER}'
                 sh 'docker push ${docker_registry_ip}:${docker_registry_port}/${JOB_NAME}:${BUILD_NUMBER}'
@@ -32,6 +30,15 @@ pipeline {
                 sh 'docker logout'
             }
         }
+
+        stage('Kubernetes Deploy') {
+            steps {
+                script {
+                    echo "aaa"
+                }
+            }
+        }
+
     }
 
     post {
