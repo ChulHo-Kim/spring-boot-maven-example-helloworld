@@ -34,8 +34,14 @@ pipeline {
         stage('Kubernetes Deploy') {
             steps {
                 script {
-                    sshagent(credentials: ['minikube']) {
-                        sh 'ssh -t -t isb@192.168.10.231 -o StrictHostKeyChecking=no "kubectl apply -f https://raw.githubusercontent.com/ChulHo-Kim/spring-boot-maven-example-helloworld/master/k8s/deployment.yaml"'
+                    def remote = [:]
+                    remote.name = 'minikube'
+                    remote.host = '192.168.10.231'
+                    remote.user = 'isb'
+                    remote.password = 'eksrnsthvmxm1!'
+                    remote.allowAnyHosts = true
+                    stage('Remote SSH') {
+                        sshCommand remote: remote, command: "kubectl apply -f https://raw.githubusercontent.com/ChulHo-Kim/spring-boot-maven-example-helloworld/master/k8s/deployment.yaml"
                     }
                 }
             }
