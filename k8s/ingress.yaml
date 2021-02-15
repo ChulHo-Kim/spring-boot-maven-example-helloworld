@@ -10,7 +10,7 @@ spec:
     http:
       paths:
       - path: /
-        pathType: Prefux
+        pathType: Prefix
         backend:
           service:
             name: tomcat-service
