@@ -36,8 +36,6 @@ pipeline {
                 script {
                     sshagent(credentials: ['minikube']) {
                         sh 'ssh isb@192.168.10.231 "https://raw.githubusercontent.com/ChulHo-Kim/spring-boot-maven-example-helloworld/master/k8s/deployment.yaml"'
-
-
                     }
                 }
             }
