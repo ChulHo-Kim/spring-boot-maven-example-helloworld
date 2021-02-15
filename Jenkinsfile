@@ -34,7 +34,9 @@ pipeline {
         stage('Kubernetes Deploy') {
             steps {
                 script {
-                    kubernetesDeploy(configs: "k8s/deployment.yaml", kubeconfigId: "kubeconfig")
+                    sshagent(credentials: ['minikube']) {
+                        sh 'ssh isb@192.168.10.231 "kubectl apply -f https://raw.githubusercontent.com/ChulHo-Kim/spring-boot-maven-example-helloworld/master/k8s/deployment.yaml"'
+                    }
                 }
             }
         }
