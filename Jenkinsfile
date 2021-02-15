@@ -35,7 +35,7 @@ pipeline {
             steps {
                 script {
                     sshagent(credentials: ['minikube']) {
-                        sh 'ssh isb@192.168.10.231 "kubectl apply -f https://raw.githubusercontent.com/ChulHo-Kim/spring-boot-maven-example-helloworld/master/k8s/deployment.yaml"'
+                        sh 'ssh -t -t isb@192.168.10.231 -o StrictHostKeyChecking=no "kubectl apply -f https://raw.githubusercontent.com/ChulHo-Kim/spring-boot-maven-example-helloworld/master/k8s/deployment.yaml"'
                     }
                 }
             }
