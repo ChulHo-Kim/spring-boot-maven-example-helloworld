@@ -32,6 +32,8 @@ pipeline {
 
                 sh 'docker rmi ${docker_registry_ip}:${docker_registry_port}/${JOB_NAME}:${BUILD_NUMBER}'
                 sh 'docker rmi ${JOB_NAME}:${BUILD_NUMBER}'
+                sh 'docker rmi ${docker_registry_ip}:${docker_registry_port}/${JOB_NAME}:latest'
+
 
                 sh 'docker logout'
             }
