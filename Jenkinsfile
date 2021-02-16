@@ -44,7 +44,7 @@ pipeline {
                         sshCommand remote: remote, command: "cat /home/isb/password/docker_registry.txt | docker login ${docker_registry_ip}:${docker_registry_port} -u ${docker_registry_id} --password-stdin"
 
                         sshCommand remote: remote, command: "mkdir -p /jenkins_deploy/${JOB_NAME}/"
-                        sshPut remote: remote, from: 'k8s', into: '/jenkins_deploy/${JOB_NAME}/'
+                        sshPut remote: remote, from: 'k8s/*', into: "'/jenkins_deploy/${JOB_NAME}/'"
 
 
                         /**
