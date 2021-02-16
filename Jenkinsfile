@@ -41,10 +41,14 @@ pipeline {
                     remote.password = 'eksrnsthvmxm1!'
                     remote.allowAnyHosts = true
                     stage('Remote SSH') {
+                        sshCommand remote: remote, command: "cat /home/isb/password/docker_registry.txt | docker login ${docker_registry_ip}:${docker_registry_port} -u ${docker_registry_id} --password-stdin"
+
                         sshCommand remote: remote, command: "kubectl apply -f https://raw.githubusercontent.com/ChulHo-Kim/spring-boot-maven-example-helloworld/master/k8s/ingress-nginx-baremetal-deploy.yaml"
                         sshCommand remote: remote, command: "kubectl apply -f https://raw.githubusercontent.com/ChulHo-Kim/spring-boot-maven-example-helloworld/master/k8s/deployment.yaml"
                         sshCommand remote: remote, command: "kubectl apply -f https://raw.githubusercontent.com/ChulHo-Kim/spring-boot-maven-example-helloworld/master/k8s/ingress.yaml"
                         sshCommand remote: remote, command: "kubectl apply -f https://raw.githubusercontent.com/ChulHo-Kim/spring-boot-maven-example-helloworld/master/k8s/service.yaml"
+
+                        sshCommand remote: remote, command: "docker logout"
                     }
                 }
             }
