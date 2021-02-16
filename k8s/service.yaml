@@ -1,14 +1,13 @@
-[root@k8s-master k8s]#
- apiVersion: v1
- kind: Service
- metadata:
-   name: tomcat-service
- spec:
-   selector:
-     app: tomcat
-   ports:
-     - protocol: TCP
-       port: 80
-       targetPort: 8080
-   clusterIP: 10.98.41.204
-   type: NodePort
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat-service
+spec:
+  selector:
+    app: tomcat
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  clusterIP: 10.98.41.204
+  type: NodePort
