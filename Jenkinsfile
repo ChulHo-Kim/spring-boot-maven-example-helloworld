@@ -45,7 +45,7 @@ pipeline {
 
                         sshCommand remote: remote, command: "mkdir -p /jenkins_deploy/${JOB_NAME}/${BUILD_NUMBER}/"
                         sshPut remote: remote, from: "./k8s/.",into: "/jenkins_deploy/${JOB_NAME}/${BUILD_NUMBER}/"
-                        sshCommand remote: remote, command: "kubectl apply -f /jenkins_deploy/${JOB_NAME}/${BUILD_NUMBER}/"
+                        sshCommand remote: remote, command: "kubectl apply -f /jenkins_deploy/${JOB_NAME}/${BUILD_NUMBER}/k8s/"
 
 
                         /**
