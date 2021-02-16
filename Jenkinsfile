@@ -26,8 +26,14 @@ pipeline {
 
                 sh 'docker tag ${JOB_NAME}:${BUILD_NUMBER} ${docker_registry_ip}:${docker_registry_port}/${JOB_NAME}:${BUILD_NUMBER}'
                 sh 'docker push ${docker_registry_ip}:${docker_registry_port}/${JOB_NAME}:${BUILD_NUMBER}'
+
+                sh 'docker tag ${JOB_NAME}:${BUILD_NUMBER} ${docker_registry_ip}:${docker_registry_port}/${JOB_NAME}:${BUILD_NUMBER}'
+                sh 'docker push ${docker_registry_ip}:${docker_registry_port}/${JOB_NAME}:latest'
+
                 sh 'docker rmi ${docker_registry_ip}:${docker_registry_port}/${JOB_NAME}:${BUILD_NUMBER}'
                 sh 'docker rmi ${JOB_NAME}:${BUILD_NUMBER}'
+                sh 'docker rmi ${docker_registry_ip}:${docker_registry_port}/${JOB_NAME}:latest'
+                sh 'docker rmi ${JOB_NAME}:latest'
 
                 sh 'docker logout'
             }
@@ -43,13 +49,13 @@ pipeline {
                     remote.password = 'eksrnsthvmxm1!'
                     remote.allowAnyHosts = true
 
-                        sshCommand remote: remote, command: "cat /home/isb/password/docker_registry.txt | docker login ${docker_registry_ip}:${docker_registry_port} -u ${docker_registry_id} --password-stdin"
+                    sshCommand remote: remote, command: "cat /home/isb/password/docker_registry.txt | docker login ${docker_registry_ip}:${docker_registry_port} -u ${docker_registry_id} --password-stdin"
 
-                        sshCommand remote: remote, command: "mkdir -p /jenkins_deploy/${JOB_NAME}/${BUILD_NUMBER}/"
-                        sshPut remote: remote, from: "./k8s/.",into: "/jenkins_deploy/${JOB_NAME}/${BUILD_NUMBER}/"
-                        sshCommand remote: remote, command: "kubectl apply -f /jenkins_deploy/${JOB_NAME}/${BUILD_NUMBER}/k8s/"
+                    sshCommand remote: remote, command: "mkdir -p /jenkins_deploy/${JOB_NAME}/${BUILD_NUMBER}/"
+                    sshPut remote: remote, from: "./k8s/.",into: "/jenkins_deploy/${JOB_NAME}/${BUILD_NUMBER}/"
+                    sshCommand remote: remote, command: "kubectl apply -f /jenkins_deploy/${JOB_NAME}/${BUILD_NUMBER}/k8s/"
 
-                        sshCommand remote: remote, command: "docker logout"
+                    sshCommand remote: remote, command: "docker logout"
 
                 }
             }
