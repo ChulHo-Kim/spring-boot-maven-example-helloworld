@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: tomcat
-        image: tomcat:8.5.53
+        image: 192.168.10.203:5000/spring-boot-maven-example-helloworld-dev:66
         env:
         - name: JAVA_OPTS
           value: "-Xms512m -Xmx512m"
