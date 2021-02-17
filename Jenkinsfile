@@ -34,7 +34,6 @@ pipeline {
                 sh 'docker rmi ${JOB_NAME}:${BUILD_NUMBER}'
                 sh 'docker rmi ${docker_registry_ip}:${docker_registry_port}/${JOB_NAME}:latest'
 
-
                 sh 'docker logout'
             }
         }
@@ -51,9 +50,13 @@ pipeline {
 
                     sshCommand remote: remote, command: "cat /home/isb/password/docker_registry.txt | docker login ${docker_registry_ip}:${docker_registry_port} -u ${docker_registry_id} --password-stdin"
 
+                    /***
                     sshCommand remote: remote, command: "mkdir -p /jenkins_deploy/${JOB_NAME}/${BUILD_NUMBER}/"
                     sshPut remote: remote, from: "./k8s/.",into: "/jenkins_deploy/${JOB_NAME}/${BUILD_NUMBER}/"
                     sshCommand remote: remote, command: "kubectl apply -f /jenkins_deploy/${JOB_NAME}/${BUILD_NUMBER}/k8s/"
+                    ***/
+
+                    sshCommand remote: remote, command: "kubectl set image deployment tomcat-deployment tomcat=192.168.10.203:5000/spring-boot-maven-example-helloworld-dev:${BUILD_NUMBER}"
 
                     sshCommand remote: remote, command: "docker logout"
 
